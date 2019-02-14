@@ -1,10 +1,10 @@
 <div class="col-md-12">
   <h2 style="margin: auto"> User applications</h2>
-  <button class="btn btn-info" style="width:100px" (click)="addApp()"> Create application</button>
+  <button class="btn btn-info" (click)="addApp()"> Create application</button>
   <table class="table table-striped">
     <thead>
     <tr>
-      <th class="hidden">Id</th>
+      <th>Id</th>
       <th>Name</th>
       <th>Type</th>
       <th>Content types</th>
@@ -13,11 +13,11 @@
     </thead>
     <tbody>
     <tr *ngFor="let app of apps">
-      <td class="hidden">{{user.id}}</td>
-      <td>{{user.name}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.userRole}}</td>
-      <td>{{user.active}}</td>
+      <td>{{app.id}}</td>
+      <td>{{app.name}}</td>
+      <td>{{app.type}}</td>
+      <td>{{app.contentTypes}}</td>
+      <td>{{app.user.email}}</td>
       <td>
         <button class="btn btn-danger glyphicon glyphicon-ban-circle" (click)="deleteUser(user)"></button>
         <button class="btn btn-warning glyphicon glyphicon-edit" (click)="editUser(user.id)" style="margin-left: 20px;"></button>

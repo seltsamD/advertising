@@ -19,32 +19,29 @@ export class UserApiService {
   }
 
   getUsers() {
-    return this.http.get(Constants.userApiURL + 'all' + this.tokenPart());
+    return this.http.get(Constants.userApiURL + 'all' + Constants.tokenPart);
   }
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(Constants.userApiURL + this.tokenPart());
+    return this.http.get<User>(Constants.userApiURL + Constants.tokenPart);
   }
 
   getUser(id: string): Observable<User> {
-    return this.http.get<User>(Constants.userApiURL + 'id/' + id + this.tokenPart());
+    return this.http.get<User>(Constants.userApiURL + 'id/' + id + Constants.tokenPart);
   }
 
 
   addUser(user: User) {
-    return this.http.post(Constants.userApiURL + this.tokenPart(), user);
+    return this.http.post(Constants.userApiURL + Constants.tokenPart, user);
   }
 
   updateUser(user: User) {
-    return this.http.put(Constants.userApiURL + user.id + this.tokenPart(), user);
+    return this.http.put(Constants.userApiURL + user.id + Constants.tokenPart, user);
   }
 
   deleteUser(id: number) {
-    return this.http.delete(Constants.userApiURL + id + this.tokenPart());
+    return this.http.delete(Constants.userApiURL + id + Constants.tokenPart);
   }
-
-  tokenPart(): string {
-    return '?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token;
-  }
+  
 }
 

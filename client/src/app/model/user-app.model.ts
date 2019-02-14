@@ -4,6 +4,6 @@ export class UserApp {
   id: number;
   name: string;
   type: string;
-  contentTypes: string[];
+  contentTypes: any;
   user: User;
 }

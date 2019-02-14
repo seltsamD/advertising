@@ -19,7 +19,7 @@ public class AppMapper {
         dto.setName(entity.getName());
         dto.setType(entity.getType());
         dto.setContentTypes(entity.getContentTypes());
-        dto.setUserDto(userMapper.maptoDto(entity.getUser()));
+        dto.setUser(userMapper.maptoDto(entity.getUser()));
         return dto;
     }
 
@@ -29,7 +29,6 @@ public class AppMapper {
         entity.setName(appDto.getName());
         entity.setType(appDto.getType());
         entity.setContentTypes(appDto.getContentTypes());
-        entity.setUser(userMapper.mapToEntity(appDto.getUserDto()));
         return entity;
     }
 

@@ -6,6 +6,7 @@ import com.advertising.dashboard.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserMapper {
@@ -24,7 +25,9 @@ public class UserMapper {
 
     public User mapToEntity(UserDto dto) {
         User entity = new User();
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        if (StringUtils.hasText(dto.getPassword())) {
+            entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
         entity.setName(dto.getName());
         entity.setActive(dto.getActive());
         entity.setEmail(dto.getEmail());

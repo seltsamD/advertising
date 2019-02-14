@@ -3,7 +3,6 @@ package com.advertising.dashboard.model.dto;
 import com.advertising.dashboard.model.AppType;
 import com.advertising.dashboard.model.ContentType;
 
-import java.util.List;
 import java.util.Set;
 
 public class AppDto {
@@ -11,7 +10,7 @@ public class AppDto {
     String name;
     AppType type;
     Set<ContentType> contentTypes;
-    UserDto userDto;
+    UserDto user;
 
     public Integer getId() {
         return id;
@@ -45,11 +44,11 @@ public class AppDto {
         this.contentTypes = contentTypes;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public UserDto getUser() {
+        return user;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }
