@@ -1,0 +1,30 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">{{title}}
+      </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li *ngIf="!authorized">
+        <a class="nav-link" href="login">Login</a>
+      </li>
+      <li *ngIf="authorized">
+        <a class="nav-link" href="user-list">User list</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="authorized">
+      <li class="nav navbar-nav navbar-right">
+        <a class="glyphicon glyphicon-log-in" href="#" (click)="logout()"> Logout</a>
+      </li>
+      <li class="nav navbar-nav navbar-right" *ngIf="username != undefined">
+        <a class="nav-item">Hi, {{username}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+
