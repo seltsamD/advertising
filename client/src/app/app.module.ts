@@ -11,6 +11,9 @@ import {UserListComponent} from './user-list/user-list.component';
 import {AddUserComponent} from './add-user/add-user.component';
 import {EditUserComponent} from './edit-user/edit-user.component';
 import {Constants} from "./constants";
+import { UserAppListComponent } from './user-app-list/user-app-list.component';
+import { UserAppAddComponent } from './user-app-add/user-app-add.component';
+import { UserAppEditComponent } from './user-app-edit/user-app-edit.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import {Constants} from "./constants";
     LoginComponent,
     UserListComponent,
     AddUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    UserAppListComponent,
+    UserAppAddComponent,
+    UserAppEditComponent
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,7 @@
     <div class="form-group">
       <label for="userRole">Select list:</label>
       <select class="form-control" formControlName="userRole" id="userRole">
-        <option [value]="role.value" *ngFor="let role of app.userRoles">
+        <option [value]="role.value" *ngFor="let role of possibleRoles">
           {{role.name}}
         </option>
       </select>

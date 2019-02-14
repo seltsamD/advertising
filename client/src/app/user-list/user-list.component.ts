@@ -13,7 +13,7 @@ export class UserListComponent implements OnInit {
 
   users: any;
 
-  constructor(private router: Router, private apiService: UserApiService, private app: AppComponent, public zone: NgZone) {
+  constructor(private router: Router, private apiService: UserApiService, private app: AppComponent) {
   }
 
   ngOnInit() {

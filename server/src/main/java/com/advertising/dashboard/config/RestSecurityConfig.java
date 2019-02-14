@@ -17,7 +17,8 @@ public class RestSecurityConfig extends ResourceServerConfigurerAdapter {
                 anonymous().disable()
                 .requestMatchers().antMatchers("/api/**")
                 .and().authorizeRequests()
-                .antMatchers("/api/**").access("hasRole('ADMIN') or hasRole('USER')")
+                .antMatchers("/api/user/**").access("hasRole('ADMIN') or hasRole('PUBLISHER') or hasRole('ADOPS')")
+                .antMatchers("/api/app/**").access("hasRole('USER') or hasRole('PUBLISHER')")
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 }

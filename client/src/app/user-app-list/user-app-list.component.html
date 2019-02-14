@@ -1,18 +1,18 @@
-<div class="col-md-6">
-  <h2 style="margin: auto"> User Details</h2>
-  <button class="btn btn-info" style="width:100px" (click)="addUser()"> Add User</button>
+<div class="col-md-12">
+  <h2 style="margin: auto"> User applications</h2>
+  <button class="btn btn-info" style="width:100px" (click)="addApp()"> Create application</button>
   <table class="table table-striped">
     <thead>
     <tr>
       <th class="hidden">Id</th>
       <th>Name</th>
-      <th>Email</th>
-      <th>User role</th>
-      <th>Active</th>
+      <th>Type</th>
+      <th>Content types</th>
+      <th>Owner</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let user of users">
+    <tr *ngFor="let app of apps">
       <td class="hidden">{{user.id}}</td>
       <td>{{user.name}}</td>
       <td>{{user.email}}</td>

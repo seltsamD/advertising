@@ -7,9 +7,9 @@ import {Constants} from "./constants";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'Dashboard';
 
   roleAdmin = "ADMIN";
-  title = 'Dashboard';
   roleAdops = "ADOPS";
   rolePublisher = "PUBLISHER"
   userRoles = [

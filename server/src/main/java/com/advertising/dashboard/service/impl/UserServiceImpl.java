@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
         //-- just to make sure there is an ADMIN user exist in the database for testing purpose
         if (userDao.count() == 0) {
             userDao.save(new User("Admin Name", "admin@i.ua", passwordEncoder.encode("admin"), UserRole.ADMIN.toString(), true));
-            userDao.save(new User("Admin Non active", "admin2@i.ua", passwordEncoder.encode("admin"), UserRole.ADMIN.toString(), false));
+            userDao.save(new User("Adops", "adop@i.ua", passwordEncoder.encode("admin"), UserRole.ADOPS.toString(), false));
         }
     }
 }

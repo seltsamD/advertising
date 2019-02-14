@@ -1,6 +1,7 @@
 package com.advertising.dashboard.config;
 
 
+import com.advertising.dashboard.model.UserRole;
 import com.advertising.dashboard.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDetail implements UserDetails {
     private String password;
@@ -18,12 +20,17 @@ public class UserDetail implements UserDetails {
     public UserDetail(User user) {
         this.username = user.getEmail();
         this.password = user.getPassword();
+        this.authorities = getAuthorities().stream()
+                .filter(role -> ((GrantedAuthority) role).getAuthority().equals(user.getUserRole().name()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        for(UserRole userRole: UserRole.values()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
+        }
         return authorities;
     }
 

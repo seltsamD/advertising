@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     this.apiService.getCurrentUser().toPromise().then((data) => {
       this.app.setUsername(data.email);
       this.app.setUserRole(data.userRole);
-      this.router.navigate(['index']);
+      this.router.navigate(['user']);
     }).catch(error => {
       console.error("Error: ", error);
     })

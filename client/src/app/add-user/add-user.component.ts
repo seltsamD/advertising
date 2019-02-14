@@ -13,12 +13,18 @@ export class AddUserComponent implements OnInit {
 
   addForm: FormGroup;
   app: AppComponent;
+  possibleRoles: any;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private apiService: UserApiService, private appComponent: AppComponent) {
     this.app = appComponent;
   }
 
   ngOnInit() {
+    if (this.app.isAdmin()) {
+     this.possibleRoles = this.appComponent.userRoles;
+    } else {
+      this.possibleRoles =  [{name: "Publisher", value: this.appComponent.rolePublisher}];
+    }
     this.addForm = this.formBuilder.group({
       id: [],
       name: ['', Validators.required],
