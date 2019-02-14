@@ -1,6 +1,6 @@
 package com.advertising.dashboard.config;
 
-import com.advertising.dashboard.service.impl.UserService;
+import com.advertising.dashboard.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private ClientDetailsService clientDetailsService;

@@ -2,7 +2,7 @@ package com.advertising.dashboard.contoller;
 
 import com.advertising.dashboard.exception.UserNotFoundException;
 import com.advertising.dashboard.model.dto.UserDto;
-import com.advertising.dashboard.service.impl.UserService;
+import com.advertising.dashboard.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @GetMapping("/all")
     public List<UserDto> findAll() {
@@ -26,8 +26,24 @@ public class UserController {
         return userService.findByEmail(name);
     }
 
+    @GetMapping("/id/{id}")
+    public UserDto findById(@PathVariable(value = "id") Long id) throws UserNotFoundException {
+        return userService.findById(id);
+    }
+
     @PostMapping
     public UserDto save(@RequestBody UserDto user) {
         return userService.save(user);
+    }
+
+    @PutMapping("/{id}")
+    public UserDto update(@PathVariable(value = "id") Long id,
+                          @RequestBody UserDto user) throws UserNotFoundException {
+        return userService.update(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(value = "id") Long id) throws UserNotFoundException {
+        userService.delete(id);
     }
 }

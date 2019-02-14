@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Constants} from "./constants";
 
 @Component({
   selector: 'app-root',
@@ -6,15 +7,51 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Dashboard';
-  authorized: boolean;
-  username: string;
-  userRole: string;
 
+  roleAdmin = "ADMIN";
+  title = 'Dashboard';
+  roleAdops = "ADOPS";
+  rolePublisher = "PUBLISHER"
   userRoles = [
-    {name: "Adops", value: "ADOPS"},
-    {name: "Publisher", value: "PUBLISHER"}
+    {name: "Adops", value: this.roleAdops},
+    {name: "Publisher", value: this.rolePublisher}
   ];
+
+  constructor(private cons: Constants) {
+
+  }
+
+  public username(): string {
+    return window.sessionStorage.getItem("username");
+  }
+
+  public setUsername(value: string) {
+    window.sessionStorage.setItem("username", value);
+  }
+
+  public isAdmin(): boolean {
+    return this.userRole() === this.roleAdmin;
+  }
+
+  public isAdops(): boolean {
+    return this.userRole() === this.roleAdops;
+  }
+
+  public isPublisher(): boolean {
+    return this.userRole() === this.rolePublisher;
+  }
+
+  public userRole(): string {
+    return window.sessionStorage.getItem("userRole");
+  }
+
+  public setUserRole(value: string) {
+    window.sessionStorage.setItem("userRole", value);
+  }
+
+  public isAuthorized(): boolean {
+    return window.sessionStorage.getItem('token') !== null;
+  }
 
   logout(): void {
     window.sessionStorage.removeItem("token");
@@ -22,9 +59,9 @@ export class AppComponent {
     window.sessionStorage.removeItem("userRole");
   };
 
-  ngDoCheck() {
-    this.authorized = window.sessionStorage.getItem("token") != null;
-    this.username = window.sessionStorage.getItem('username');
-    this.userRole = window.sessionStorage.getItem('userRole');
-  }
+  // ngDoCheck() {
+  //   this.authorized = this.isAuthorized();
+  //   this.username = this.cons.username;
+  //   this.userRole = this.cons.userRole;
+  // }
 }

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpParams} from "@angular/common/http";
 import {UserApiService} from "../service/user.service";
 import {User} from "../model/user.model";
+import {AppComponent} from "../app.component";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean = false;
   user: User;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: UserApiService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: UserApiService, private app: AppComponent) {
   }
 
   onSubmit() {
@@ -32,18 +33,20 @@ export class LoginComponent implements OnInit {
 
     this.apiService.login(body.toString()).subscribe(data => {
       window.sessionStorage.setItem('token', JSON.stringify(data));
-      this.getUserInfo();
-      this.router.navigate(['user-list']);
+      this.setUserInfo();
     }, error => {
       this.invalidLogin = true;
     });
   }
 
-  getUserInfo() {
-    this.apiService.getUser().subscribe(user => {
-      window.sessionStorage.setItem('username', user.email);
-      window.sessionStorage.setItem('userRole', user.userRole);
-    });
+  setUserInfo() {
+    this.apiService.getCurrentUser().toPromise().then((data) => {
+      this.app.setUsername(data.email);
+      this.app.setUserRole(data.userRole);
+      this.router.navigate(['index']);
+    }).catch(error => {
+      console.error("Error: ", error);
+    })
   }
 
   ngOnInit() {

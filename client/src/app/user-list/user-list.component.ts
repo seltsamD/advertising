@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {UserApiService} from "../service/user.service";
+import {User} from "../model/user.model";
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-user-list',
@@ -11,24 +13,33 @@ export class UserListComponent implements OnInit {
 
   users: any;
 
-  constructor(private router: Router, private apiService: UserApiService) {
+  constructor(private router: Router, private apiService: UserApiService, private app: AppComponent, public zone: NgZone) {
   }
 
   ngOnInit() {
-    if (window.sessionStorage.getItem('token') &&
-      (window.sessionStorage.getItem("userRole") != "ADMIN" || window.sessionStorage.getItem("userRole") != "OPERATOR")) {
+    if (this.app.isAdmin() || this.app.isAdops()) {
       this.apiService.getUsers()
         .subscribe(data => {
           this.users = data;
         });
-
     } else {
+      alert("User must have Admin or Adops role");
       this.router.navigate(['login']);
-      return;
     }
   }
 
   addUser(): void {
     this.router.navigate(['add-user']);
+  };
+
+  editUser(id: number): void {
+    this.router.navigate(['edit-user/', id]);
+  };
+
+  deleteUser(user: User): void {
+    this.apiService.deleteUser(user.id)
+      .subscribe(data => {
+        this.users = this.users.filter(u => u !== user);
+      })
   };
 }

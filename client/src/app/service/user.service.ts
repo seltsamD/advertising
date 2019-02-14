@@ -2,13 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from "../model/user.model";
 import {Observable} from "rxjs";
-
+import {Constants} from "../constants";
 
 @Injectable()
 export class UserApiService {
-
-  baseUrl: string = 'http://localhost:8082/api/user/';
-  userGl: User;
 
   constructor(private http: HttpClient) {
   }
@@ -18,19 +15,36 @@ export class UserApiService {
       'Authorization': 'Basic ' + btoa('dashboard-client:dashboard-server'),
       'Content-type': 'application/x-www-form-urlencoded'
     }
-    return this.http.post('http://localhost:8082/' + 'oauth/token', loginPayload, {headers});
+    return this.http.post(Constants.baseURL + 'oauth/token', loginPayload, {headers});
   }
 
   getUsers() {
-    return this.http.get(this.baseUrl + 'all?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
+    return this.http.get(Constants.userApiURL + 'all' + this.tokenPart());
   }
 
-  getUser(): Observable<User> {
-    return this.http.get<User>(this.baseUrl + '?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token);
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(Constants.userApiURL + this.tokenPart());
   }
+
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(Constants.userApiURL + 'id/' + id + this.tokenPart());
+  }
+
 
   addUser(user: User) {
-    return this.http.post(this.baseUrl + '?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token, user);
+    return this.http.post(Constants.userApiURL + this.tokenPart(), user);
+  }
+
+  updateUser(user: User) {
+    return this.http.put(Constants.userApiURL + user.id + this.tokenPart(), user);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(Constants.userApiURL + id + this.tokenPart());
+  }
+
+  tokenPart(): string {
+    return '?access_token=' + JSON.parse(window.sessionStorage.getItem('token')).access_token;
   }
 }
 

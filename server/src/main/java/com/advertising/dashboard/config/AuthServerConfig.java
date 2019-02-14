@@ -1,6 +1,6 @@
 package com.advertising.dashboard.config;
 
-import com.advertising.dashboard.service.impl.UserService;
+import com.advertising.dashboard.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +29,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     static final String SCOPE_READ = "read";
     static final String SCOPE_WRITE = "write";
     static final String TRUST = "trust";
-    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
-    static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60 * 60;
+    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 5 * 60 * 60;
+    static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 60 * 60 * 60;
 
     @Autowired
     private TokenStore tokenStore;
@@ -39,7 +39,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private UserApprovalHandler userApprovalHandler;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     @Qualifier("authenticationManagerBean")
@@ -50,13 +50,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
-//
-//    @Bean
-//    public JwtAccessTokenConverter accessTokenConverter() {
-//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-//        converter.setSigningKey("as466gf");
-//        return converter;
-//    }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {

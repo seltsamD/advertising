@@ -7,9 +7,9 @@ import com.advertising.dashboard.mapper.UserMapper;
 import com.advertising.dashboard.model.UserRole;
 import com.advertising.dashboard.model.dto.UserDto;
 import com.advertising.dashboard.model.entity.User;
+import com.advertising.dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,10 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -30,6 +29,17 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
+    @Override
+    public UserDto findByEmail(String email) throws UserNotFoundException {
+        User user = userDao.findByEmail(email);
+        if (null == user) {
+            throw new UserNotFoundException(String.format("Couldn't find user with email %s", email));
+        }
+
+        return userMapper.maptoDto(user);
+    }
+
+    @Override
     public UserDto findById(Long id) throws UserNotFoundException {
         Optional<User> userOptional = userDao.findById(id);
         if (userOptional.isPresent()) {
@@ -39,21 +49,45 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Override
     public List<UserDto> findAll() {
-        return StreamSupport.stream(userDao.findAll().spliterator(), false)
+        return userDao.findAllByActiveTrue().stream()
                 .map(user -> userMapper.maptoDto(user))
                 .collect(Collectors.toList());
     }
 
-
-    public UserDto findByEmail(String email) {
-        return userMapper.maptoDto(userDao.findByEmail(email));
-    }
-
-
+    @Override
     public UserDto save(UserDto userDto) {
         User user = userMapper.mapToEntity(userDto);
         return userMapper.maptoDto(userDao.save(user));
+    }
+
+    @Override
+    public UserDto update(Long id, UserDto userDto) {
+        Optional<User> userOptional = userDao.findById(id);
+        User user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setEmail(userDto.getEmail());
+            user.setName(userDto.getName());
+            userDao.save(user);
+        } else {
+            user = userMapper.mapToEntity(userDto);
+            userDao.save(user);
+        }
+        return userMapper.maptoDto(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<User> userOptional = userDao.findById(id);
+        User user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+            user.setActive(false);
+            userDao.save(user);
+        }
     }
 
     @Override
