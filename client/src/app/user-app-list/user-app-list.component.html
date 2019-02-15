@@ -1,6 +1,6 @@
 <div class="col-md-12">
-  <h2 style="margin: auto"> User applications</h2>
-  <button class="btn btn-info" (click)="addApp()"> Create application</button>
+  <h2> User applications</h2>
+  <button class="btn btn-success" (click)="addApp()"> Create application</button>
   <table class="table table-striped">
     <thead>
     <tr>
@@ -19,8 +19,8 @@
       <td>{{app.contentTypes}}</td>
       <td>{{app.user.email}}</td>
       <td>
-        <button class="btn btn-danger glyphicon glyphicon-ban-circle" (click)="deleteUser(user)"></button>
-        <button class="btn btn-warning glyphicon glyphicon-edit" (click)="editUser(user.id)" style="margin-left: 20px;"></button>
+        <button class="btn btn-danger glyphicon glyphicon-trash" (click)="delete(app.id)"> Delete</button>
+        <button class="btn btn-warning glyphicon glyphicon-edit" style="margin-left: 20px" (click)="edit(app.id)"> Edit</button>
       </td>
     </tr>
     </tbody>

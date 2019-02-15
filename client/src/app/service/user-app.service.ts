@@ -15,8 +15,25 @@ export class UserAppService {
     return this.http.get(Constants.appApiURL + 'all' + Constants.tokenPart);
   }
 
+  findByUser() {
+    return this.http.get(Constants.appApiURL + 'user' + Constants.tokenPart);
+  }
+
   add(app: UserApp) {
     return this.http.post(Constants.appApiURL + Constants.tokenPart, app);
   }
+
+  edit(app: UserApp) {
+    return this.http.put(Constants.appApiURL + Constants.tokenPart, app);
+  }
+
+  delete(id: number) {
+    return this.http.delete(Constants.appApiURL + id + Constants.tokenPart);
+  }
+
+  get(id: string) {
+    return this.http.get(Constants.appApiURL + id + Constants.tokenPart);
+  }
+
 
 }

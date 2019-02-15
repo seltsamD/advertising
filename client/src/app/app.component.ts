@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Constants} from "./constants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
     {name: "Publisher", value: this.rolePublisher}
   ];
 
-  constructor(private cons: Constants) {
+  constructor(private cons: Constants, private router: Router) {
 
   }
 
@@ -59,9 +60,13 @@ export class AppComponent {
     window.sessionStorage.removeItem("userRole");
   };
 
-  // ngDoCheck() {
-  //   this.authorized = this.isAuthorized();
-  //   this.username = this.cons.username;
-  //   this.userRole = this.cons.userRole;
-  // }
+  errorHadling(error: any) {
+    if (error.status === 401) {
+      alert("User must be logged in");
+      this.logout();
+      this.router.navigate(['login']);
+    } else {
+      alert(error.message);
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserApiService} from "../service/user.service";
-import {User} from "../model/user.model";
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-edit-user',
@@ -12,19 +12,20 @@ import {User} from "../model/user.model";
 export class EditUserComponent implements OnInit {
 
   editForm: FormGroup;
-  user: User;
 
-  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private apiService: UserApiService) {
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router, private apiService: UserApiService,
+              private app: AppComponent) {
   }
 
   ngOnInit() {
     this.editForm = this.formBuilder.group({
       id: [],
-      name: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required],
-      userRole: ['', Validators.required]
+      name: [],
+      email: [],
+      password: [],
+      userRole: []
     });
+
     let id = this.route.snapshot.paramMap.get('id');
     this.apiService.getUser(id)
       .subscribe(data => {
@@ -33,15 +34,16 @@ export class EditUserComponent implements OnInit {
   }
 
   onSubmit() {
+    let self = this;
     this.apiService.updateUser(this.editForm.value)
-      .subscribe(
-        data => {
+      .subscribe({
+        next(data) {
           alert('User updated successfully.');
-          this.router.navigate(['user-list']);
+          self.router.navigate(['user-list']);
         },
-        error => {
-          alert(error);
-        });
+        error(error) {
+          self.app.errorHadling(error);
+        }
+      });
   }
-
 }

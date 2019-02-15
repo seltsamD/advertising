@@ -22,12 +22,20 @@ export class UserApiService {
     return this.http.get(Constants.userApiURL + 'all' + Constants.tokenPart);
   }
 
+  getAdopsAndPublisher() {
+    return this.http.get(Constants.userApiURL + 'adops-publishers' + Constants.tokenPart);
+  }
+
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(Constants.userApiURL + Constants.tokenPart);
   }
 
   getUser(id: string): Observable<User> {
     return this.http.get<User>(Constants.userApiURL + 'id/' + id + Constants.tokenPart);
+  }
+
+  isEmailUnique(email: string): Observable<boolean> {
+    return this.http.get<boolean>(Constants.userApiURL + 'email/' + email + Constants.tokenPart);
   }
 
 

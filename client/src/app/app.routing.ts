@@ -11,10 +11,10 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'user-list', component: UserListComponent},
   {path: 'add-user', component: AddUserComponent},
-  {path: 'edit-user/:id', component: EditUserComponent},
+  {path: 'user-edit/:id', component: EditUserComponent},
   {path: 'app-list', component: UserAppListComponent},
   {path: 'app-add', component: UserAppAddComponent},
-  {path: 'app-edit', component: UserAppEditComponent}
+  {path: 'app-edit/:id', component: UserAppEditComponent}
 ];
 
 export const routing = RouterModule.forRoot(routes);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -37,13 +38,17 @@ public class AppServiceImpl implements AppService {
     }
 
     @Override
-    public List<AppDto> findByUser(Integer userId) {
-        return appMapper.mapToDtoList(appDao.findAppsByUser(userId));
+    public List<AppDto> findByUser(String email) {
+        return appDao.findAppsByUserEmail(email).stream()
+                .map(app -> appMapper.mapToDto(app))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<AppDto> findAll() {
-        return appMapper.mapToDtoList(appDao.findAll());
+        return appDao.findAll().stream()
+                .map(app -> appMapper.mapToDto(app))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,6 +67,7 @@ public class AppServiceImpl implements AppService {
             app.setContentTypes(dto.getContentTypes());
             app.setType(dto.getType());
             app.setName(dto.getName());
+            app.setUser(userDao.findById(dto.getUser().getId()).get());
         } else {
             app = appMapper.mapToEntity(dto);
         }

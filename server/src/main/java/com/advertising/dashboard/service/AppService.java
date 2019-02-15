@@ -9,7 +9,7 @@ import java.util.List;
 public interface AppService {
     AppDto findById(Integer id) throws AppNotFoundException;
 
-    List<AppDto> findByUser(Integer userId);
+    List<AppDto> findByUser(String email);
 
     List<AppDto> findAll();
 

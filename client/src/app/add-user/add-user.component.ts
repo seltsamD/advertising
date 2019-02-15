@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserApiService} from "../service/user.service";
 import {AppComponent} from "../app.component";
@@ -27,18 +27,25 @@ export class AddUserComponent implements OnInit {
     }
     this.addForm = this.formBuilder.group({
       id: [],
-      name: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required],
-      userRole: ['', Validators.required]
+      name: [],
+      email: [],
+      password: [],
+      userRole: []
     });
   }
 
   onSubmit() {
-    this.apiService.addUser(this.addForm.value)
-      .subscribe(data => {
-        this.router.navigate(['user-list']);
-      });
+    this.apiService.isEmailUnique(this.addForm.value.email).subscribe(data => {
+      if (data === true) {
+        this.apiService.addUser(this.addForm.value)
+          .subscribe(data => {
+            this.router.navigate(['user-list']);
+          });
+      } else {
+        alert("User with email " + this.addForm.value.email + " already exist.")
+      }
+    })
+
   }
 
 }

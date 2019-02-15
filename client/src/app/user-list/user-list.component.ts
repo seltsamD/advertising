@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {UserApiService} from "../service/user.service";
 import {User} from "../model/user.model";
@@ -17,11 +17,17 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    var self = this;
     if (this.app.isAdmin() || this.app.isAdops()) {
       this.apiService.getUsers()
-        .subscribe(data => {
-          this.users = data;
-        });
+        .subscribe({
+          next(data) {
+            self.users = data
+          },
+          error(error) {
+            self.app.errorHadling(error);
+          }
+        })
     } else {
       alert("User must have Admin or Adops role");
       this.router.navigate(['login']);
@@ -33,7 +39,7 @@ export class UserListComponent implements OnInit {
   };
 
   editUser(id: number): void {
-    this.router.navigate(['edit-user/', id]);
+    this.router.navigate(['user-edit/', id]);
   };
 
   deleteUser(user: User): void {

@@ -13,7 +13,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Long id;
+    private Integer id;
 
     @Column
     @Size(min = 1, max = 255)
@@ -44,7 +44,7 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -9,13 +9,18 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     UserDto findByEmail(String email) throws UserNotFoundException;
 
-    UserDto findById(Long id) throws UserNotFoundException;
+    UserDto findById(Integer id) throws UserNotFoundException;
 
     List<UserDto> findAll();
 
     UserDto save(UserDto userDto);
 
-    UserDto update(Long id, UserDto userDto);
+    UserDto update(Integer id, UserDto userDto);
 
-    void delete(Long id);
+    void delete(Integer id);
+
+    boolean isEmailUnique(String email);
+
+    List<UserDto> findAdopsAndPublishers();
+
 }

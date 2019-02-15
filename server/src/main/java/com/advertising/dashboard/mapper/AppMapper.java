@@ -5,8 +5,6 @@ import com.advertising.dashboard.model.entity.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AppMapper {
@@ -19,7 +17,7 @@ public class AppMapper {
         dto.setName(entity.getName());
         dto.setType(entity.getType());
         dto.setContentTypes(entity.getContentTypes());
-        dto.setUser(userMapper.maptoDto(entity.getUser()));
+        dto.setUser(userMapper.mapToDto(entity.getUser()));
         return dto;
     }
 
@@ -32,7 +30,4 @@ public class AppMapper {
         return entity;
     }
 
-    public List<AppDto> mapToDtoList(List<App> entityList){
-        return entityList.stream().map(this::mapToDto).collect(Collectors.toList());
-    }
 }

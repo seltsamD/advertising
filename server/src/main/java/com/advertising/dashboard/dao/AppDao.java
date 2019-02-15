@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface AppDao extends CrudRepository<App, Integer> {
-    List<App> findAppsByUser(Integer userId);
+    List<App> findAppsByUserEmail(String email);
     List<App> findAll();
 }

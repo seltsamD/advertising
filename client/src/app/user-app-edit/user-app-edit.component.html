@@ -1,3 +1,40 @@
-<p>
-  user-app-edit works!
-</p>
+<div class="col-md-6 user-container">
+  <h2 class="text-center">Edit application</h2>
+  <form ngNativeValidate [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="id" name="id" class="form-control" id="id">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" formControlName="name" name="name" class="form-control" id="name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Application type:</label>
+      <select class="form-control" formControlName="type" id="type" required>
+        <option [value]="type" *ngFor="let type of appTypes">
+          {{type}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="contentTypes">Content types:</label>
+      <select multiple class="form-control" formControlName="contentTypes" id="contentTypes" required>
+        <option [value]="contentType" *ngFor="let contentType of possibleContentTypes">
+          {{contentType}}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="app.isAdops()">
+      <label for="user">User: </label>
+      <select class="form-control" formControlName="user" id="user" required>
+        <option [value]="user.email" *ngFor="let user of users">
+          {{user.email}}
+        </option>
+      </select>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Update</button>
+  </form>
+</div>

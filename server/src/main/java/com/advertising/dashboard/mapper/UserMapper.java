@@ -13,7 +13,7 @@ public class UserMapper {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserDto maptoDto(User entity) {
+    public UserDto mapToDto(User entity) {
         UserDto dto = new UserDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());

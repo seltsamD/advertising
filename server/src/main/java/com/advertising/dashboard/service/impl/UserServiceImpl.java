@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,14 +37,14 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(String.format("Couldn't find user with email %s", email));
         }
 
-        return userMapper.maptoDto(user);
+        return userMapper.mapToDto(user);
     }
 
     @Override
-    public UserDto findById(Long id) throws UserNotFoundException {
+    public UserDto findById(Integer id) throws UserNotFoundException {
         Optional<User> userOptional = userDao.findById(id);
         if (userOptional.isPresent()) {
-            return userMapper.maptoDto(userOptional.get());
+            return userMapper.mapToDto(userOptional.get());
         } else {
             throw new UserNotFoundException(String.format("Couldn't find user with id %s", id));
         }
@@ -52,18 +53,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userDao.findAllByActiveTrue().stream()
-                .map(user -> userMapper.maptoDto(user))
+                .map(user -> userMapper.mapToDto(user))
                 .collect(Collectors.toList());
     }
 
     @Override
     public UserDto save(UserDto userDto) {
         User user = userMapper.mapToEntity(userDto);
-        return userMapper.maptoDto(userDao.save(user));
+        return userMapper.mapToDto(userDao.save(user));
     }
 
     @Override
-    public UserDto update(Long id, UserDto userDto) {
+    public UserDto update(Integer id, UserDto userDto) {
         Optional<User> userOptional = userDao.findById(id);
         User user;
         if (userOptional.isPresent()) {
@@ -76,11 +77,11 @@ public class UserServiceImpl implements UserService {
             user = userMapper.mapToEntity(userDto);
             userDao.save(user);
         }
-        return userMapper.maptoDto(user);
+        return userMapper.mapToDto(user);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Optional<User> userOptional = userDao.findById(id);
         User user;
         if (userOptional.isPresent()) {
@@ -99,12 +100,25 @@ public class UserServiceImpl implements UserService {
         return new UserDetail(user);
     }
 
+    @Override
+    public boolean isEmailUnique(String email) {
+        return userDao.findByEmail(email) == null;
+    }
+
+    @Override
+    public List<UserDto> findAdopsAndPublishers() {
+        List<String> userRoles = new ArrayList<>();
+        userRoles.add(UserRole.ADOPS.toString());
+        userRoles.add(UserRole.PUBLISHER.toString());
+        List<User> userList = userDao.findByUserRoleIn(userRoles);
+        return userList.stream().map(user -> userMapper.mapToDto(user)).collect(Collectors.toList());
+    }
+
     @PostConstruct
     private void setupDefaultUser() {
-        //-- just to make sure there is an ADMIN user exist in the database for testing purpose
+        // save ADMIN user for testing purpose
         if (userDao.count() == 0) {
             userDao.save(new User("Admin Name", "admin@i.ua", passwordEncoder.encode("admin"), UserRole.ADMIN.toString(), true));
-            userDao.save(new User("Adops", "adop@i.ua", passwordEncoder.encode("admin"), UserRole.ADOPS.toString(), false));
         }
     }
 }
