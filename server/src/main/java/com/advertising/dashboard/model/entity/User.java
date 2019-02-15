@@ -1,11 +1,13 @@
 package com.advertising.dashboard.model.entity;
 
 import com.advertising.dashboard.model.UserRole;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "UserCredentials")
@@ -32,6 +34,10 @@ public class User implements Serializable {
 
     @Column
     private Boolean active = true;
+
+    @OneToMany
+    @Lazy
+    private Set<App> apps;
 
     public User() {
     }
@@ -86,6 +92,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<App> getApps() {
+        return apps;
+    }
+
+    public void setApps(Set<App> apps) {
+        this.apps = apps;
     }
 
     @Override

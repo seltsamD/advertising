@@ -15,9 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
+    public List<UserDto> findAllActive() {
         return userDao.findAllByActiveTrue().stream()
                 .map(user -> userMapper.mapToDto(user))
                 .collect(Collectors.toList());
@@ -106,11 +107,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAdopsAndPublishers() {
-        List<String> userRoles = new ArrayList<>();
-        userRoles.add(UserRole.ADOPS.toString());
-        userRoles.add(UserRole.PUBLISHER.toString());
-        List<User> userList = userDao.findByUserRoleIn(userRoles);
+    public List<UserDto> findByRoles(List<UserRole> userRoles) {
+        Set<String> userRoleNames = userRoles.stream().map(Objects::toString).collect(Collectors.toSet());
+        List<User> userList = userDao.findByUserRoleIn(userRoleNames);
         return userList.stream().map(user -> userMapper.mapToDto(user)).collect(Collectors.toList());
     }
 

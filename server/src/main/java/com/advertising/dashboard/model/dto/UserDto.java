@@ -8,6 +8,17 @@ public class UserDto {
     private Boolean active = true;
     private String password;
 
+    public UserDto() {
+    }
+
+    public UserDto(String name, String email, String password, String userRole, boolean isActive) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setUserRole(userRole);
+        this.setActive(isActive);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -54,5 +65,17 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", userRole='" + userRole + '\'' +
+                ", active=" + active +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

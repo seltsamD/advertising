@@ -18,8 +18,18 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     var self = this;
-    if (this.app.isAdmin() || this.app.isAdops()) {
+    if (this.app.isAdmin()) {
       this.apiService.getUsers()
+        .subscribe({
+          next(data) {
+            self.users = data
+          },
+          error(error) {
+            self.app.errorHadling(error);
+          }
+        })
+    } else if (this.app.isAdops()) {
+      this.apiService.getPublishers()
         .subscribe({
           next(data) {
             self.users = data

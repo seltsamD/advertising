@@ -26,6 +26,10 @@ export class UserApiService {
     return this.http.get(Constants.userApiURL + 'adops-publishers' + Constants.tokenPart);
   }
 
+  getPublishers() {
+    return this.http.get(Constants.userApiURL + 'publishers' + Constants.tokenPart);
+  }
+
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(Constants.userApiURL + Constants.tokenPart);
   }

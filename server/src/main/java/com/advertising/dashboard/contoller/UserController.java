@@ -1,12 +1,15 @@
 package com.advertising.dashboard.contoller;
 
 import com.advertising.dashboard.exception.UserNotFoundException;
+import com.advertising.dashboard.model.UserRole;
 import com.advertising.dashboard.model.dto.UserDto;
 import com.advertising.dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -17,7 +20,7 @@ public class UserController {
 
     @GetMapping("/all")
     public List<UserDto> findAll() {
-        return userService.findAll();
+        return userService.findAllActive();
     }
 
     @GetMapping
@@ -54,6 +57,11 @@ public class UserController {
 
     @GetMapping("/adops-publishers")
     public List<UserDto> findAdopsAndPublishers() {
-        return userService.findAdopsAndPublishers();
+        return userService.findByRoles(Arrays.asList(UserRole.ADOPS, UserRole.PUBLISHER));
+    }
+
+    @GetMapping("/publishers")
+    public List<UserDto> findPublishers() {
+        return userService.findByRoles(Collections.singletonList(UserRole.PUBLISHER));
     }
 }
