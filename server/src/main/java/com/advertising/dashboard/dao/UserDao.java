@@ -11,7 +11,7 @@ public interface UserDao extends CrudRepository<User, Integer> {
 
     List<User> findAllByActiveTrue();
 
-    List<User> findByUserRoleIn(Set<String> userRoles);
+    List<User> findByActiveIsTrueAndUserRoleIn(Set<String> userRoles);
 
 
 }

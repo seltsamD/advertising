@@ -120,12 +120,12 @@ public class UserServiceTest {
         Assert.assertEquals(1, userService.findAllActive().size());
         Assert.assertEquals(0, userService.findByRoles(Arrays.asList(UserRole.ADOPS, UserRole.PUBLISHER)).size());
         UserDto publisher = new UserDto("Publisher", "pub@i.ua", passwordEncoder.encode("pub"), UserRole.PUBLISHER.toString(), true);
-        UserDto adops = new UserDto("Admin Updated", "admin2@i.ua", passwordEncoder.encode("adop"), UserRole.ADOPS.toString(), true);
+        UserDto adops = new UserDto("Admin Updated", "admin2@i.ua", passwordEncoder.encode("adop"), UserRole.ADOPS.toString(), false);
 
         userService.save(publisher);
         userService.save(adops);
-        Assert.assertEquals(3, userService.findAllActive().size());
-        Assert.assertEquals(2, userService.findByRoles(Arrays.asList(UserRole.ADOPS, UserRole.PUBLISHER)).size());
+        Assert.assertEquals(2, userService.findAllActive().size());
+        Assert.assertEquals(1, userService.findByRoles(Arrays.asList(UserRole.ADOPS, UserRole.PUBLISHER)).size());
 
     }
 }

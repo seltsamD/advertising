@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findByRoles(List<UserRole> userRoles) {
         Set<String> userRoleNames = userRoles.stream().map(Objects::toString).collect(Collectors.toSet());
-        List<User> userList = userDao.findByUserRoleIn(userRoleNames);
+        List<User> userList = userDao.findByActiveIsTrueAndUserRoleIn(userRoleNames);
         return userList.stream().map(user -> userMapper.mapToDto(user)).collect(Collectors.toList());
     }
 
