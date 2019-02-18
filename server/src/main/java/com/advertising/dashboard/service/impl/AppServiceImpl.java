@@ -4,14 +4,17 @@ import com.advertising.dashboard.dao.AppDao;
 import com.advertising.dashboard.dao.UserDao;
 import com.advertising.dashboard.exception.AppNotFoundException;
 import com.advertising.dashboard.mapper.AppMapper;
+import com.advertising.dashboard.model.AppType;
+import com.advertising.dashboard.model.ContentType;
 import com.advertising.dashboard.model.dto.AppDto;
 import com.advertising.dashboard.model.entity.App;
+import com.advertising.dashboard.model.entity.User;
 import com.advertising.dashboard.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.PostConstruct;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -77,5 +80,17 @@ public class AppServiceImpl implements AppService {
     @Override
     public void delete(Integer id) {
         appDao.deleteById(id);
+    }
+
+    @PostConstruct
+    private void inserTestData() {
+        if (appDao.count() == 0) {
+            User publisher = userDao.findByEmail("pub@i.ua");
+            Set<ContentType> contentTypes = new HashSet<>();
+            contentTypes.add(ContentType.HTML);
+            contentTypes.add(ContentType.IMAGE);
+            appDao.save(new App("App 1", AppType.ANDROID, contentTypes, publisher));
+            appDao.save(new App("App 2", AppType.WEBSITE, Collections.singleton(ContentType.HTML), publisher));
+        }
     }
 }

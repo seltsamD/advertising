@@ -114,10 +114,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @PostConstruct
-    private void setupDefaultUser() {
-        // save ADMIN user for testing purpose
+    private void inserTestData() {
         if (userDao.count() == 0) {
             userDao.save(new User("Admin Name", "admin@i.ua", passwordEncoder.encode("admin"), UserRole.ADMIN.toString(), true));
+            userDao.save(new User("Adops Name", "adop@i.ua", passwordEncoder.encode("adop"), UserRole.ADOPS.toString(), true));
+            userDao.save(new User("Publisher Name", "pub@i.ua", passwordEncoder.encode("pub"), UserRole.PUBLISHER.toString(), true));
         }
     }
 }

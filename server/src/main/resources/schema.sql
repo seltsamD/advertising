@@ -1,3 +1,27 @@
+CREATE TABLE app
+(
+    id integer NOT NULL,
+    name VARCHAR(256),
+    type integer,
+    user_id integer
+);
+
+CREATE TABLE app_content_types
+(
+    app_id integer NOT NULL,
+    content_types integer
+);
+
+CREATE TABLE user_credentials
+(
+    id integer NOT NULL,
+    active boolean,
+    email VARCHAR(256),
+    name VARCHAR(256),
+    password VARCHAR(256),
+    user_role VARCHAR(256)
+);
+
 create table oauth_client_details (
   client_id VARCHAR(256) PRIMARY KEY,
   resource_ids VARCHAR(256),

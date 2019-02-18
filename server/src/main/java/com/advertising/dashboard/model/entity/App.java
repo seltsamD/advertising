@@ -6,7 +6,6 @@ import com.advertising.dashboard.model.ContentType;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +31,13 @@ public class App implements Serializable {
     private User user;
 
     public App() {
+    }
+
+    public App(@Size(min = 1, max = 255) String name, AppType type, Set<ContentType> contentTypes, User user) {
+        this.name = name;
+        this.type = type;
+        this.contentTypes = contentTypes;
+        this.user = user;
     }
 
     public Integer getId() {
