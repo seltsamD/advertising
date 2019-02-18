@@ -1,10 +1,10 @@
 For start backend:
-  cd server
+  cd server ->
   mvn spring-boot:run
   
  
  For start frontend:
-  cd client
+  cd client -> 
   ng serve
   
  Default credentialis for login:
